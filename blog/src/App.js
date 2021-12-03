@@ -11,12 +11,8 @@ function num () {
 function App() {
   let [title, updateTitle] = useState(['남자 코트 추천', '강남 우동 맛집','영등포 오피스']);
   let [thumbs, updateThumbs] = useState(0);
-  // function newTitle () {
-  //   let newArray = [...title];
-  //   // newArray[0] = '여자 코트 추천';
-  //   updateTitle(newArray.sort());
-  // }
-
+  let [modal, updateModal] = useState(false);
+  let [focused, updateFocused] = useState(0);
 
   return (
     <div className="App">
@@ -24,38 +20,38 @@ function App() {
         <div>개발 blog</div>
       </div>
       {/* <button onClick={ newTitle }>버튼</button> */}
-      <div className="list">
-        <h3>{ title[0] } <span onClick={ ()=> {updateThumbs(thumbs + 1)} }>👍🏼</span> {thumbs} </h3>
-        <p>2월 17일 발행</p>
-        <p>{}</p>
-        <hr />
-      </div>
-
-      <div className="list">
-        <h3>{ title[1] }</h3>
-        <p>2월 17일 발행</p>
-        <p>{}</p>
-        <hr />
-      </div>
-
-      <div className="list">
-        <h3>{ title[2] }</h3>
-        <p>2월 17일 발행</p>
-        <p>{}</p>
-        <hr />
-      </div>
       
-      <Modal />
+
+      {
+        title.map((post, i) => {
+          return (
+            <div className="list">
+            <h3 onClick={ () => {updateFocused(i)}}>{ post } 
+            <span onClick={ ()=> {updateThumbs(thumbs + 1)} }>👍🏼</span> {thumbs} </h3>
+            <p>2월 17일 발행</p>
+            <hr />
+          </div>
+          )
+        })
+      }
+      <button onClick={ ()=> {updateModal(!modal)}}>열고닫기</button>
+      {
+        modal === true
+        ? <Modal title={title} focused={focused} />
+        : null
+      }
+      
+
 
     </div>
 
   );
 }
 
-function Modal(){
+function Modal(props){
   return (
     <div className="modal">
-      <h2>제목</h2>
+      <h2>제목 : { props.title[props.focused] }</h2>
       <p>날짜</p>
       <p>상세내용</p>
     </div>
