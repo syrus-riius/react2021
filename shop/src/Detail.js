@@ -24,10 +24,10 @@ function Detail(props){
 
     let [alert, changeAlert] = useState(true);
     let [inputData, changeInputData] = useState('');
-    
+
     useEffect(()=>{
-     let timer = setTimeout(()=>{ changeAlert(false) }, 2000);
-        
+        let timer = setTimeout(()=>{ changeAlert(false) }, 2000);
+        return ()=>{ clearTimeout(timer)}
     }, [alert]);
 
 
